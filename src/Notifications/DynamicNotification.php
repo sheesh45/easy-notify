@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Support\Facades\Schema;
 
 class DynamicNotification extends Notification
 {
@@ -39,6 +40,10 @@ class DynamicNotification extends Notification
 
     public function toDatabase($notifiable)
     {
+        if (!Schema::hasTable('notifications')) {
+            return [];
+        }
+
         return [
             'title' => $this->title,
             'message' => $this->message,
